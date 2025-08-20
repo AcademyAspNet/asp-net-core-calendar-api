@@ -14,6 +14,19 @@ namespace MiddlewareExampleWebAPI
 
             var app = builder.Build();
 
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next(context);
+                }
+                catch (Exception)
+                {
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    await context.Response.WriteAsync("При выполнении запроса возникла ошибка!");
+                }
+            });
+            
             app.UseApiKeyValidation();
 
             app.Use(async (context, next) =>

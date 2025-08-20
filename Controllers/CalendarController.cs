@@ -17,6 +17,10 @@ namespace MiddlewareExampleWebAPI.Controllers
         public IActionResult GetCurrentTime()
         {
             string currentTime = DateTime.Now.ToShortTimeString();
+
+            if (new Random().Next() % 2 == 0)
+                throw new Exception();
+
             return Content(currentTime);
         }
     }
